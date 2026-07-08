@@ -73,6 +73,7 @@ The target platform uses a containerized Caddy edge proxy, a shared private Dock
 - [Architecture](docs/architecture.md)
 - [Repository model](docs/repository-model.md)
 - [Networking](docs/networking.md)
+- [Security](docs/security.md)
 - [Roadmap](docs/roadmap.md)
 
 ## Status

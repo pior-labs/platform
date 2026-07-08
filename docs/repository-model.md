@@ -20,3 +20,10 @@ Pior Labs uses a polyrepo structure so applications, shared services, packages, 
 Application source, reusable packages, and architecture may be public when they contain no personal data or operational secrets.
 
 Repositories containing production configuration, credentials, private endpoints, or sensitive operational details remain private.
+
+## Related documentation
+
+- [Architecture](architecture.md)
+- [Networking](networking.md)
+- [Security](security.md)
+- [Roadmap](roadmap.md)
