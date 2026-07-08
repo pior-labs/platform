@@ -58,28 +58,6 @@ The target platform uses a containerized Caddy edge proxy, a shared private Dock
 | `platform-deploy` | Private production deployment and routing configuration |
 | `.github` | Organization profile and shared GitHub configuration |
 
-## Platform principles
-
-### Self-hosted by default
-
-Applications are designed to run on infrastructure under direct control, with private access provided through the local network and Tailscale.
-
-### Shared foundations
-
-Applications should reuse common authentication, design, networking, deployment, and data conventions instead of rebuilding them independently.
-
-### Clear ownership
-
-Application repositories own application code and images. Platform deployment owns shared routing, production configuration, and deployment coordination.
-
-### Incremental migration
-
-Existing applications remain functional while infrastructure is standardized. Current and target states are documented separately to avoid presenting planned work as complete.
-
-### Private operations
-
-Architecture and standards can be public. Secrets, addresses, credentials, production environment files, and detailed recovery procedures remain private.
-
 ## Current migration
 
 1. Move application hostnames to `szarans.ca`.
