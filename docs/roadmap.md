@@ -57,3 +57,10 @@ The current priority is to make the Docker, Caddy, GitHub Actions, PostgreSQL, a
 ## Updating this roadmap
 
 A roadmap item should change status only when implementation work has meaningfully begun or the capability is operating in its intended environment. Planned architecture should not be marked complete based only on documentation or scaffolding.
+
+## Related documentation
+
+- [Architecture](architecture.md)
+- [Repository model](repository-model.md)
+- [Networking](networking.md)
+- [Security](security.md)
