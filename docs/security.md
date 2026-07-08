@@ -14,21 +14,6 @@ This document describes the platform security posture. It distinguishes between 
 - Limit the impact of a compromised application, credential, or automation workflow.
 - Keep production secrets and operational details out of public repositories.
 - Preserve a clear boundary between public CI and private production deployment.
-- Document limitations instead of presenting planned controls as complete.
-
-## Threat model
-
-The platform is designed primarily to reduce risk from:
-
-- automated internet scanning and opportunistic attacks
-- leaked credentials or committed secrets
-- unauthorized access to private applications
-- compromise of an individual application container
-- overly broad CI/CD permissions
-- accidental exposure of databases or administrative tools
-- insecure communication between clients and services
-
-The platform is not designed as a public multi-tenant service or as infrastructure for highly regulated data.
 
 ## Control status
 
@@ -151,44 +136,6 @@ Applications will continue to own their domain-specific users, permissions, and 
 
 The Auth service must be deployed and validated before existing application authentication is removed.
 
-## Updates and dependencies
-
-Application and infrastructure dependencies should be pinned through lockfiles or explicit image versions where practical. Changes should pass repository validation before deployment.
-
-Automated dependency and vulnerability monitoring is not yet standardized across every repository. This remains a platform hardening item rather than an implemented organization-wide control.
-
-Host operating-system updates and container-image updates remain administrative responsibilities and should be applied regularly with rollback considerations.
-
-## Monitoring and recovery
-
-Service availability can be monitored independently from application deployment, but security alerting, backup schedules, and restore testing are not yet standardized across the platform.
-
-The intended recovery model includes:
-
-- database backups stored separately from the active database
-- protected copies of deployment configuration
-- documented restoration procedures
-- periodic restore tests
-- health verification after deployment and recovery
-
-These controls should not be considered complete until backup jobs and restore tests are implemented and documented in private operational runbooks.
-
-## Public repository hygiene
-
-Public repositories may document architecture, source code, interfaces, and sanitized examples.
-
-They must not contain:
-
-- production secrets or tokens
-- private keys
-- real environment files
-- database credentials
-- private IP addresses or detailed internal topology
-- personal financial or account data
-- production backups
-- sensitive recovery procedures
-
-Examples should use placeholders and values that cannot be mistaken for valid credentials.
 
 ## Current limitations
 
