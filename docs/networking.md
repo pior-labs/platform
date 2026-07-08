@@ -94,12 +94,3 @@ sequenceDiagram
     App-->>Caddy: Response
     Caddy-->>Client: HTTPS response
 ```
-
-## Security rules
-
-- Do not publish private IP addresses in public documentation.
-- Do not commit DNS API tokens or environment files.
-- Do not expose application ports once Caddy routing is active.
-- Keep database traffic on private Docker networks.
-- Grant only the minimum containers access to `pior_edge`.
-- Treat the Auth issuer hostname as a stable application contract.
