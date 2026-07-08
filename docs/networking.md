@@ -94,3 +94,7 @@ sequenceDiagram
     App-->>Caddy: Response
     Caddy-->>Client: HTTPS response
 ```
+
+## Security model
+
+Networking is one layer of the broader platform security model. Access restrictions, credential handling, CI/CD isolation, host controls, database separation, and current limitations are documented in [Security](security.md).
