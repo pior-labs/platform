@@ -48,10 +48,9 @@ This roadmap tracks platform-level work rather than application feature developm
 The following technologies may be explored later but are not required for the current home-server platform:
 
 - Kubernetes
-- Terraform or Pulumi
+- Terraform (or Pulumi)
 - multi-node orchestration
 - public multi-tenant hosting
-- complex service meshes
 
 The current priority is to make the Docker, Caddy, GitHub Actions, PostgreSQL, and Tailscale foundation consistent and reliable before adding another infrastructure layer.
 
