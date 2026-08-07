@@ -75,6 +75,7 @@ The target platform uses a containerized Caddy edge proxy, a shared private Dock
 - [Networking](docs/networking.md)
 - [Security](docs/security.md)
 - [Roadmap](docs/roadmap.md)
+- [New web application bootstrap prompt](prompts/new-webapp-bootstrap.md)
 
 ## Status
 
