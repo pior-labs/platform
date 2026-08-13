@@ -93,10 +93,13 @@ Production applications run as Docker containers behind the shared Caddy edge.
 
 Use the current Pior Labs networking conventions documented by `platform` and implemented by `platform-deploy`.
 
-Current hostname convention is generally:
+Each application uses one canonical hostname:
 
-- public: `<app>.szarans.ca`
-- private/Tailscale: `<app>.ts.szarans.ca`
+- `<app>.szarans.ca`
+
+The same hostname is used on the trusted LAN and through Tailscale. Split-horizon DNS returns the appropriate private address for the client's network context, so applications should not create or depend on separate `.ts.szarans.ca` hostnames.
+
+This single-hostname model should also be reflected in application configuration and OAuth callback registration: production needs one canonical application URL rather than separate LAN and Tailscale variants.
 
 Applications should not independently expose public host ports unless there is a specific operational reason.
 
@@ -149,7 +152,7 @@ When initializing a new Pior Labs web application, work through the following se
 3. Identify required frontend, API, database, worker, storage, or MCP components.
 4. Define the database and PostgreSQL role that need to be provisioned.
 5. Define the `service-auth` OAuth client and callback requirements.
-6. Define public and private hostnames.
+6. Define the canonical application hostname and split-horizon DNS requirements.
 7. Identify required `platform-deploy` changes.
 8. Establish local development configuration.
 9. Establish CI checks.
