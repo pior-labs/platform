@@ -28,6 +28,27 @@ The core platform foundation is operational:
 - The shared design system is published through GitHub Packages and consumed by applications.
 - Production infrastructure and routing configuration are maintained separately in the private `platform-deploy` repository.
 
+## Local application development
+
+User-facing applications share one browser-origin convention:
+
+- run one application at a time on `http://localhost:5173`;
+- proxy `/api/*` from Vite to that application's local API port;
+- authenticate against the hosted canonical issuer at
+  `https://auth.szarans.ca/api/auth`;
+- register `http://localhost:5173/api/auth/oauth2/callback/auth-pior` on every
+  development-enabled OAuth client; and
+- configure a distinct Better Auth `cookiePrefix` for every application.
+
+Cookies are scoped by hostname rather than port and survive after a development
+server stops. A unique prefix such as `finlens` or `cookbook` prevents session
+and OAuth-state cookies from one local application being interpreted by
+another.
+
+Running `service-auth` locally remains useful when developing the identity
+provider itself. Normal application development uses the hosted service and
+does not require the local Auth web/API processes.
+
 ## Architecture
 
 ```mermaid

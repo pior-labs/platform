@@ -70,6 +70,63 @@ For each new application:
 - keep production auth configuration environment-driven
 - do not guess or duplicate auth endpoints when the source-of-truth repository can be inspected
 
+Choose a stable application slug and use it consistently for the OAuth client
+ID and Better Auth cookie prefix. Never reuse another application's OAuth client
+ID, client secret, session secret, database, or cookie prefix.
+
+### Local authentication contract
+
+User-facing applications run one at a time behind the standard Vite origin
+`http://localhost:5173`. An application may retain its own API port; Vite
+proxies `/api/*` to that API so the browser-facing Better Auth URL and OAuth
+callback remain on port `5173`.
+
+Normal application development uses the hosted central SSO service:
+
+```env
+WEB_PORT=5173
+BETTER_AUTH_URL=http://localhost:5173
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+CENTRAL_AUTH_ISSUER=https://auth.szarans.ca/api/auth
+CENTRAL_AUTH_DISCOVERY_URL=https://auth.szarans.ca/api/auth/.well-known/openid-configuration
+CENTRAL_AUTH_CLIENT_ID=<app-client-id>
+CENTRAL_AUTH_CLIENT_SECRET=<matching-server-only-secret>
+```
+
+The OAuth client secret and application session secret are server-only. Never
+place them in `VITE_*` variables or source control.
+
+Each application creates its own local Better Auth session after central SSO.
+Namespace all cookies because browser cookies are shared across localhost ports
+and persist when switching applications:
+
+```ts
+export const auth = betterAuth({
+  // app database, OAuth plugin, and model mapping...
+  advanced: {
+    cookiePrefix: '<app-slug>',
+    database: {
+      generateId: 'serial',
+    },
+  },
+});
+```
+
+Add regression coverage for both `<app-slug>.session_token` and
+`<app-slug>.oauth_state`.
+
+Register both exact callbacks on the application's unique OAuth client:
+
+```text
+https://<app>.szarans.ca/api/auth/oauth2/callback/auth-pior
+http://localhost:5173/api/auth/oauth2/callback/auth-pior
+```
+
+After changing a production client registration, merge the `service-auth`
+change, run **Bootstrap Auth Production** to reseed clients, then run **Deploy
+Auth Production** to restart Auth and reload cached registrations.
+
 ## Database
 
 PostgreSQL is provided centrally by the Pior Labs platform.
