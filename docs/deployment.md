@@ -15,9 +15,11 @@ A shared infrastructure change is deployed from `platform-deploy`. An applicatio
 
 ## Validation and production deployment
 
-Pull requests and normal CI should use GitHub-hosted runners whenever they do not need access to private production resources. Production workflows are manually dispatched from the protected production branch and target a self-hosted runner on the server.
+Pull requests and normal CI should use GitHub-hosted runners whenever they do not need access to private production resources. Production jobs target a self-hosted runner on the server and run only from the repository's production branch.
 
-This separation keeps routine validation isolated from the home server and makes production access an explicit action.
+The trigger policy is repository-specific. High-impact infrastructure, bootstrap, and newly introduced application deployments remain manual through `workflow_dispatch`. A proven application workflow may deploy after successful CI on a push to `main`, as Finance currently does.
+
+This separation keeps routine validation isolated from the home server while making production access controlled and auditable.
 
 ## Self-hosted runner convention
 
