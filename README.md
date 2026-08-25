@@ -27,6 +27,7 @@ The core platform foundation is operational:
 - Finance has been migrated to the shared authentication, networking, and database model.
 - The shared design system is published through GitHub Packages and consumed by applications.
 - Production infrastructure and routing configuration are maintained separately in the private `platform-deploy` repository.
+- Production deployments use dedicated, repository-scoped self-hosted runners on the server.
 
 ## Local application development
 
@@ -99,6 +100,7 @@ The original platform migration is complete. Current work is focused on extendin
 
 - [Architecture](docs/architecture.md)
 - [Repository model](docs/repository-model.md)
+- [Deployment model](docs/deployment.md)
 - [Networking](docs/networking.md)
 - [Security](docs/security.md)
 - [Roadmap](docs/roadmap.md)
