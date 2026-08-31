@@ -30,7 +30,7 @@ Prefer the established stack unless the product has a concrete requirement that 
 - GitHub Actions CI/CD
 - Caddy for edge routing and TLS
 - Tailscale for private access
-- Cloudflare for public DNS
+- Cloudflare wildcard DNS for the normal/LAN path
 - `@pior-labs/design-system` for shared UI
 - `service-auth` for centralized OAuth/OIDC authentication
 
@@ -154,7 +154,7 @@ Each application uses one canonical hostname:
 
 - `<app>.szarans.ca`
 
-The same hostname is used on the trusted LAN and through Tailscale. Split-horizon DNS returns the appropriate private address for the client's network context, so applications should not create or depend on separate `.ts.szarans.ca` hostnames.
+The same hostname is used on the trusted LAN and through Tailscale. Cloudflare and Tailscale wildcard DNS return the appropriate private address for the client's network context, so applications should not create per-app DNS records or depend on separate `.ts.szarans.ca` hostnames.
 
 This single-hostname model should also be reflected in application configuration and OAuth callback registration: production needs one canonical application URL rather than separate LAN and Tailscale variants.
 
@@ -209,7 +209,7 @@ When initializing a new Pior Labs web application, work through the following se
 3. Identify required frontend, API, database, worker, storage, or MCP components.
 4. Define the database and PostgreSQL role that need to be provisioned.
 5. Define the `service-auth` OAuth client and callback requirements.
-6. Define the canonical application hostname and split-horizon DNS requirements.
+6. Choose the canonical application hostname. The platform wildcards cover it automatically; identify only exceptional DNS or Docker-alias requirements.
 7. Identify required `platform-deploy` changes.
 8. Establish local development configuration.
 9. Establish CI checks.
