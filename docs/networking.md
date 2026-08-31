@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pior Labs uses Cloudflare for authoritative DNS and certificate validation, split-horizon DNS for private address resolution, Caddy as the shared application edge, Docker networks for service-to-service communication, and Tailscale for private remote access.
+Pior Labs uses Cloudflare for authoritative DNS and certificate validation, wildcard split-horizon DNS for private address resolution, Caddy as the shared application edge, Docker networks for service-to-service communication, and Tailscale for private remote access.
 
 The design keeps application traffic private while still using stable domain names and publicly trusted HTTPS certificates.
 
@@ -18,15 +18,15 @@ finance.szarans.ca
 auth.szarans.ca
 ```
 
-Split-horizon DNS returns the appropriate private address for the client's network context, so separate `.ts.szarans.ca` hostnames are no longer required.
+Wildcard split-horizon DNS returns the appropriate private address for the client's network context, so separate `.ts.szarans.ca` hostnames and per-application DNS records are not required.
 
 ## DNS
 
-Cloudflare remains authoritative for the public `szarans.ca` zone and is used by Caddy for ACME DNS-01 certificate validation.
+Cloudflare remains authoritative for the public `szarans.ca` zone and is used by Caddy for ACME DNS-01 certificate validation. A DNS-only `*.szarans.ca` wildcard points application names through one canonical home record to the server's private LAN destination.
 
-Inside trusted networks, the platform DNS layer overrides application hostnames with private addresses appropriate to LAN or Tailscale access. This provides a consistent URL while keeping traffic on private network paths.
+Tailscale uses a restricted `szarans.ca` resolver with its own wildcard, returning the server's Tailscale address for the zone and every subdomain. Together, these rules provide a consistent URL while keeping traffic on private network paths.
 
-Public DNS records do not make the services publicly reachable by themselves. No private IP addresses are documented in this public repository.
+New applications inherit both wildcard paths automatically. They require an explicit Caddy route, but no application-specific Cloudflare CNAME or Tailscale DNS entry. DNS resolution does not make an application publicly reachable or cause Caddy to serve an unknown hostname. No private IP addresses are documented in this public repository.
 
 ## HTTPS
 
@@ -72,7 +72,7 @@ Databases and internal-only services should not join `pior_edge` unless Caddy or
 ```mermaid
 sequenceDiagram
     participant Client
-    participant DNS as Split-horizon DNS
+    participant DNS as Wildcard split DNS
     participant Caddy
     participant App
     participant DB as PostgreSQL

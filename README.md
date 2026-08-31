@@ -21,7 +21,7 @@ The core platform foundation is operational:
 
 - Dashboard, Finance, and the shared Auth service are deployed on the self-hosted server.
 - A containerized Caddy edge handles application routing and TLS.
-- Split-horizon DNS allows the same `*.szarans.ca` hostnames to work on the local network and over Tailscale.
+- Wildcard split-horizon DNS allows every `*.szarans.ca` hostname to work on the local network and over Tailscale without per-application DNS records.
 - PostgreSQL provides shared database infrastructure with application-specific databases and roles.
 - `service-auth` provides centralized OAuth 2.1 / OpenID Connect SSO.
 - Finance has been migrated to the shared authentication, networking, and database model.
@@ -54,7 +54,7 @@ does not require the local Auth web/API processes.
 
 ```mermaid
 flowchart TD
-    LAN[LAN clients] --> DNS[Split-horizon DNS]
+    LAN[LAN clients] --> DNS[Wildcard split DNS]
     TS[Tailscale clients] --> DNS
     DNS --> EDGE[Containerized Caddy edge]
 
@@ -71,7 +71,7 @@ flowchart TD
     FUTURE --> DB
 ```
 
-Applications use stable `szarans.ca` hostnames regardless of whether the client is on the trusted local network or connected through Tailscale. Caddy is the platform entry point, application-facing containers communicate over shared Docker networking, and stateful services use isolated PostgreSQL credentials.
+Applications use stable `szarans.ca` hostnames regardless of whether the client is on the trusted local network or connected through Tailscale. Cloudflare and Tailscale wildcard rules cover new subdomains automatically; Caddy remains the explicit application entry point. Application-facing containers communicate over shared Docker networking, and stateful services use isolated PostgreSQL credentials.
 
 ## Repository model
 
