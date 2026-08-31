@@ -53,13 +53,13 @@ Deployment workflows render or mount the required runtime configuration without 
 
 ## Promoting a new application to production
 
-1. Define the hostname, edge-network aliases, database role, and persistent-storage requirements in `platform-deploy`.
+1. Choose the canonical `<app>.szarans.ca` hostname. The platform DNS wildcards cover it automatically; add only its Caddy route and any required edge-network aliases in `platform-deploy`.
 2. Add an application-owned production Compose override, deployment workflow, readiness checks, and operations guide.
 3. Configure the repository's protected production environment, variables, and secrets.
 4. Provision and register the repository-scoped self-hosted runner.
 5. Deploy `platform-deploy` first when shared infrastructure changed.
 6. Deploy the application from its production branch.
-7. Verify readiness, authentication, routing, persistence, and backup boundaries.
+7. Verify wildcard DNS resolution, readiness, authentication, routing, persistence, and backup boundaries.
 
 ## Documentation contract
 
