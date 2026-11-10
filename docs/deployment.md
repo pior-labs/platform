@@ -17,9 +17,44 @@ A shared infrastructure change is deployed from `platform-deploy`. An applicatio
 
 Pull requests and normal CI should use GitHub-hosted runners whenever they do not need access to private production resources. Production jobs target a self-hosted runner on the server and run only from the repository's production branch.
 
-The trigger policy is repository-specific. High-impact infrastructure, bootstrap, and newly introduced application deployments remain manual through `workflow_dispatch`. A proven application workflow may deploy after successful CI on a push to `main`, as Finance currently does.
+The standard release path is:
 
-This separation keeps routine validation isolated from the home server while making production access controlled and auditable.
+1. PRs validate on hosted runners, including application-owned tests and image
+   builds. They never use production runners or publish deployable releases.
+2. Successful pushes to main publish images to GHCR and save an attempt-specific
+   release manifest with source SHA and immutable image digests. Static applications
+   publish an archive with a verified checksum instead.
+3. Manual deployment selects the full numeric successful main CI run ID and an
+   optional exact attempt. A hosted resolver verifies workflow identity, success,
+   main ancestry and release contents before production access.
+4. The repository runner pulls the selected artifacts and matching source
+   configuration, applies app-owned migrations, waits for container health and
+   checks the application's canonical ingress. It never rebuilds application images
+   or fetches a moving branch as the release source.
+5. Current, previous and failed attempted releases are recorded privately on the
+   host. Application rollback redeploys an eligible earlier run/attempt using current
+   secrets. Migrations and persistent data are not automatically reversed.
+
+Application deployment is manual by default. Dashboard retains automatic deployment
+only after successful main CI and skips superseded builds; it also supports manual
+release selection. Auth bootstrap remains a separate explicitly confirmed operation
+sharing the same concurrency group as Auth deploy. Platform deployment remains
+manual and retains its provisioning and external database-image controls. The shared
+Caddy image is built in CI; infrastructure rollback is not database or DNS recovery.
+Package publication follows its own versioned registry release workflow. Health's
+learning project has hosted Go CI without a production release scaffold yet.
+
+Every production workflow for one repository shares a concurrency group with
+`cancel-in-progress: false`. This prevents a new request from cancelling in-flight
+migrations. GitHub may replace a pending request; it does not provide a FIFO queue.
+Readiness probes must reflect each application's actual dependencies rather than
+assuming a container-status listing proves successful deployment.
+
+Cookbook is the first proven end-to-end implementation. Other repositories adopt
+this contract through their own reviewed PRs, package permissions, runner setup and
+first deployment. Documentation of the pattern does not establish that every
+consumer has deployed it. The owning operations guide records activation and
+recovery details, including first-migration limits and artifact retention.
 
 ## Self-hosted runner convention
 
@@ -49,7 +84,12 @@ Do not store production values in:
 - runner service configuration; or
 - public documentation.
 
-Deployment workflows render or mount the required runtime configuration without printing secret values.
+Deployment workflows render or mount the required runtime configuration without
+printing secret values. Applications use a separate `COMPOSE_PROJECT_NAME` Actions
+secret matching the existing production project identity while monolithic runtime
+secrets are split incrementally. Existing application-specific secret names remain
+valid. Resolved host Compose files contain secrets and must stay private. Naming an
+Actions environment alone does not configure required reviewers or branch rules.
 
 ## Promoting a new application to production
 
@@ -58,7 +98,7 @@ Deployment workflows render or mount the required runtime configuration without 
 3. Configure the repository's protected production environment, variables, and secrets.
 4. Provision and register the repository-scoped self-hosted runner.
 5. Deploy `platform-deploy` first when shared infrastructure changed.
-6. Deploy the application from its production branch.
+6. Wait for a successful main CI release and deploy its exact run ID/attempt.
 7. Verify wildcard DNS resolution, readiness, authentication, routing, persistence, and backup boundaries.
 
 ## Documentation contract

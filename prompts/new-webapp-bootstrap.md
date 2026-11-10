@@ -170,12 +170,19 @@ A production deployment should generally be repeatable and capable of:
 
 1. obtaining the intended application revision
 2. applying the production environment configuration
-3. building or updating Docker images
+3. pulling immutable image digests from a successful hosted main CI release
 4. running database migrations
 5. recreating application containers safely
 6. verifying service health
 
 Do not rely on undocumented manual server changes as part of normal deployment.
+
+Keep production deployment manual and separate from validation. CI builds and
+publishes the release artifacts; the repository runner deploys the selected full
+CI run ID and optional exact attempt without rebuilding. Use the separate
+`COMPOSE_PROJECT_NAME` Actions secret, preserve persistent host paths, serialize
+production operations, and record current/previous/failed releases. Start from
+the template's release tooling and owning deployment guide.
 
 Never commit production secrets to the repository.
 
