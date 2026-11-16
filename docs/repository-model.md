@@ -13,6 +13,7 @@ Pior Labs uses a polyrepo structure so applications, shared services, packages, 
 | `package-*` | Reusable libraries and packages | `package-design-system` |
 | `platform` | Public architecture and standards | This repository |
 | `platform-deploy` | Private production deployment implementation | Caddy, routing, shared networks |
+| `platform-renovate` | Private dependency update automation | Self-hosted Renovate runner |
 | `.github` | Organization profile and shared GitHub configuration | Organization README |
 
 ## Public and private repositories
