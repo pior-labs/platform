@@ -1,0 +1,49 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Pior Labs dependency update policy. See workspace ADR 0002.",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "schedule": ["before 6am on monday"],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "automerge": false,
+  "osvVulnerabilityAlerts": true,
+  "postUpdateOptions": ["gomodTidy"],
+  "packageRules": [
+    {
+      "description": "Group minor, patch, pin and digest updates into one PR per repository.",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major dependencies",
+      "groupSlug": "all-non-major"
+    },
+    {
+      "description": "Update Vite and its tightly coupled tooling together.",
+      "matchPackageNames": ["vite", "@vitejs/**", "vitest", "@vitest/**"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Vite toolchain"
+    },
+    {
+      "description": "Keep .node-version, Dockerfiles and engines on the same Node release, LTS majors only.",
+      "matchDepNames": ["node"],
+      "allowedVersions": "/^\\d*[02468]\\./",
+      "groupName": "Node.js runtime",
+      "groupSlug": "node-runtime"
+    },
+    {
+      "description": "Own packages are released deliberately, so skip the waiting period and keep them separate.",
+      "matchPackageNames": ["@pior-labs/**"],
+      "minimumReleaseAge": null,
+      "groupName": "Pior Labs packages",
+      "groupSlug": "pior-labs-packages"
+    },
+    {
+      "description": "PostgreSQL versions are owned by platform-deploy (workspace ADR 0001).",
+      "matchDatasources": ["docker"],
+      "matchDepNames": ["postgres"],
+      "enabled": false
+    }
+  ]
+}
