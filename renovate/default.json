@@ -26,9 +26,9 @@
       "groupName": "Vite toolchain"
     },
     {
-      "description": "Keep .node-version, Dockerfiles and engines on the same Node release, LTS majors only.",
-      "matchDepNames": ["node"],
-      "allowedVersions": "/^\\d*[02468]\\./",
+      "description": "Keep .node-version, Dockerfiles, engines and Node types on the same Node release, LTS majors only. Matches tags like 26, 26-alpine and 26.13.1.",
+      "matchDepNames": ["node", "@types/node"],
+      "allowedVersions": "/^v?\\d*[02468]([.-]|$)/",
       "groupName": "Node.js runtime",
       "groupSlug": "node-runtime"
     },
