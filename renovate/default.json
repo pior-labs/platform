@@ -26,6 +26,12 @@
       "groupName": "Vite toolchain"
     },
     {
+      "description": "Better Auth packages are released together and must stay on matching versions, so routine updates move them as one. Renovate still opens security fixes per package; check the companion packages when one arrives.",
+      "matchPackageNames": ["better-auth", "@better-auth/**"],
+      "groupName": "Better Auth",
+      "groupSlug": "better-auth"
+    },
+    {
       "description": "Keep .node-version, Dockerfiles, engines and Node types on the same Node release, LTS majors only. Matches tags like 26, 26-alpine and 26.13.1.",
       "matchDepNames": ["node", "@types/node"],
       "allowedVersions": "/^v?\\d*[02468]([.-]|$)/",
