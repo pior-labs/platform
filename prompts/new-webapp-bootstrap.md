@@ -119,8 +119,8 @@ Add regression coverage for both `<app-slug>.session_token` and
 Register both exact callbacks on the application's unique OAuth client:
 
 ```text
-https://<app>.szarans.ca/api/auth/oauth2/callback/auth-pior
-http://localhost:5173/api/auth/oauth2/callback/auth-pior
+https://<app>.szarans.ca/api/auth/callback/auth-pior
+http://localhost:5173/api/auth/callback/auth-pior
 ```
 
 After changing a production client registration, merge the `service-auth`
