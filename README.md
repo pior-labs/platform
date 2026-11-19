@@ -20,9 +20,9 @@ This repository documents how those pieces fit together. It describes the public
 
 The core platform foundation is operational and is now supporting multiple real applications:
 
-- [Dashboard](https://github.com/pior-labs/app-dashboard), [Finance](https://github.com/pior-labs/app-finance-tracker), [Cookbook](https://github.com/pior-labs/app-cookbook), and the shared Auth service are deployed on the self-hosted server.
+- [Dashboard](https://github.com/pior-labs/app-dashboard), [Finance](https://github.com/pior-labs/app-finance-tracker), [Cookbook](https://github.com/pior-labs/app-cookbook), [Tasks](https://github.com/pior-labs/app-tasks), and the shared Auth service are deployed on the self-hosted server.
 - Cookbook was built from the standardized application template and has completed its Phase 1 recipe-management experience, including search/discovery, images, serving scaling, favorites, ratings, Trash, and Cooking Mode.
-- Cookbook also exposes a read-only MCP v1 for recipe search, retrieval, favorites, ratings-oriented discovery, tags, and serving scaling.
+- Cookbook also exposes an application-owned MCP server for recipe search and retrieval, reviewed recipe creation, meal planning, and grocery lists. Writes go through the same application services as the web UI and act as a configured household member.
 - A containerized Caddy edge handles application routing and TLS.
 - Wildcard split-horizon DNS allows every `*.szarans.ca` hostname to work on the local network and over Tailscale without per-application DNS records.
 - PostgreSQL provides shared database infrastructure with application-specific databases and roles.
