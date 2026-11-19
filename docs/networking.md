@@ -59,9 +59,15 @@ Current network aliases include:
 
 | Application | Web alias | API alias |
 | --- | --- | --- |
-| Dashboard | `dashboard-web` | — |
 | Finance | `finance-web` | `finance-api` |
+| Cookbook | `cookbook-web` | `cookbook-api` |
+| Assistant | `assistant-web` | `assistant-api` |
+| Tasks | `tasks-web` | `tasks-api` |
 | Auth | `auth-web` | `auth-api` |
+
+Cookbook's optional HTTP MCP listener uses `cookbook-mcp`. Dashboard has no
+container alias: Caddy serves its static build and runtime configuration
+directly from host directories.
 
 Aliases must be unique across the platform and should describe the application and component rather than a particular container instance.
 
