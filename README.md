@@ -49,7 +49,7 @@ User-facing applications share one browser-origin convention:
 - run one application at a time on `http://localhost:5173`;
 - proxy `/api/*` from Vite to that application's local API port;
 - authenticate against the hosted canonical issuer at `https://auth.szarans.ca/api/auth`;
-- register `http://localhost:5173/api/auth/oauth2/callback/auth-pior` on every development-enabled OAuth client; and
+- register `http://localhost:5173/api/auth/callback/auth-pior` on every development-enabled OAuth client; and
 - configure a distinct Better Auth `cookiePrefix` for every application.
 
 Cookies are scoped by hostname rather than port and survive after a development server stops. A unique prefix such as `finlens` or `cookbook` prevents session and OAuth-state cookies from one local application being interpreted by another.
