@@ -28,17 +28,18 @@ This roadmap tracks platform-level work rather than application feature developm
 | Application template | Establish a reusable foundation for future web applications | Complete |
 | Cookbook foundation | Build and deploy the first new application on the standardized platform from the start | Complete |
 | Application MCP | Prove application-owned MCP interfaces against real application services | Complete |
+| Dependency updates | Keep runtimes and dependencies current, including security fixes, through reviewed automated update PRs | Complete |
+| Tasks | Build and deploy the Tasks application from the application template | Complete |
 | Cookbook expansion | Extend Cookbook into meal planning and grocery-list workflows | In progress |
 | Deployment isolation | Reduce privileged production responsibilities in public application repositories | In progress |
 | Documentation | Keep architecture, networking, security, and application docs aligned with production | In progress |
 | Observability | Standardize health checks, monitoring, and deployment verification | In progress |
 | Backups | Document and automate database, application-data, and platform backup/restore procedures | Planned |
 | Cross-application assistant | Build a broader assistant on top of application-owned MCP capabilities | Planned |
-| Vulnerability management | Standardize dependency and vulnerability monitoring | Later |
 
 ## Completed foundation
 
-The original migration and standardization sequence is complete:
+The migration and standardization work completed so far:
 
 1. Application hostnames moved to `szarans.ca`.
 2. Containerized Caddy became the shared edge.
@@ -50,6 +51,8 @@ The original migration and standardization sequence is complete:
 8. A reusable web application template and bootstrap prompt were established for future projects.
 9. Cookbook was built from that standardized application pattern through a complete Phase 1 deployment.
 10. Cookbook MCP v1 demonstrated that trusted assistants can consume application-owned capabilities without bypassing application business logic.
+11. Tasks was built from the application template and deployed on the shared platform.
+12. A shared, self-hosted Renovate policy began opening reviewed dependency and security update PRs across repositories.
 
 ## Current priority order
 
@@ -77,11 +80,11 @@ The next stage is application capability and integration:
 The following technologies may be explored later but are not required for the current home-server platform:
 
 - Kubernetes
-- Terraform or Pulumi
+- Pulumi, or infrastructure-as-code beyond the current DNS records
 - multi-node orchestration
 - public multi-tenant hosting
 
-The current priority is to deepen the reliability and repeatability of the existing Docker, Caddy, GitHub Actions, PostgreSQL, Tailscale, SSO, and application-MCP foundation before adding another infrastructure layer.
+The current priority is to deepen the reliability and repeatability of the existing Docker, Caddy, GitHub Actions, Terraform-managed DNS, PostgreSQL, Tailscale, SSO, and application-MCP foundation before adding another infrastructure layer.
 
 ## Updating this roadmap
 
